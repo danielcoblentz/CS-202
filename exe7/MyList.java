@@ -1,112 +1,167 @@
 public class MyList {
-    //data fields
+    // data fields
     public Node head = null;
     public int size = 0;
-    
-    //methods
-    //a
-    public int front()
-    {
-        return head.data;
+
+    // Node class definition
+    class Node {
+        int data;
+        Node next;
+
+        public Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
     }
 
-    //b
-public int size()
-{
-    return size;
-}
-    //c
-    public void insert_Head(int insert_me){
-        //step 1: create new node in the memory (contains insert_method)
+    // a
+    public int front() {
+        return head != null ? head.data : -1; // Return -1 if the list is empty
+    }
+
+    // b
+    public int size() {
+        return size;
+    }
+
+    // c
+    public void insert_Head(int insert_me) {
         Node temp = new Node(insert_me);
-        //Step2: assign teh original head of the list as next
-        //node   for the new node (created in step 1)
-
-      temp.next = head;
-
-      //step3: assign new node as head of the list
-      head = temp;
-
-      size++;
-
-      //one line solution
-      //head = new Node(insert_me, head); // review at home
-
-
+        temp.next = head;
+        head = temp;
+        size++;
     }
 
-    //d
-    public void delete_head(){
-        //if(head!=null) return true or false
-        //assign the second node in the list as the head of the list
-        head = head.next;
-        size--;
+    // d
+    public void delete_head() {
+        if (head != null) {
+            head = head.next;
+            size--;
+        }
     }
-    //e
-    public void display()
-    {
-        for(Node temp=head;temp!=null; temp=temp.next)
-        {
-            System.out.print("->"+ temp.data);
+
+    // e
+    public void display() {
+        for (Node temp = head; temp != null; temp = temp.next) {
+            System.out.print("->" + temp.data);
         }
         System.out.println();
     }
+
+    // f
+    public int get_back() {
+        if (head == null) {
+            return -1; // Return -1 if the list is empty
+        }
+        Node temp = head;
+        while (temp.next != null) {
+            temp = temp.next;
+        }
+        return temp.data;
+    }
+
+    // g
+    public void insert_back(int insert_me) {
+        Node newNode = new Node(insert_me);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node temp = head;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            temp.next = newNode;
+        }
+        size++;
+    }
+
+    // h
+    public void delete_back() {
+        if (head == null) {
+            return; // List is empty
+        }
+        if (head.next == null) {
+            head = null;
+        } else {
+            Node temp = head;
+            while (temp.next.next != null) {
+                temp = temp.next;
+            }
+            temp.next = null;
+        }
+        size--;
+    }
+
+    // i
+    public boolean search(int target) {
+        for (Node temp = head; temp != null; temp = temp.next) {
+            if (temp.data == target) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // j
+    public void insert(int after_me, int insert_me) {
+        Node newNode = new Node(insert_me);
+        Node temp = head;
+        while (temp != null && temp.data != after_me) {
+            temp = temp.next;
+        }
+        if (temp != null) {
+            newNode.next = temp.next;
+            temp.next = newNode;
+            size++;
+        }
+    }
+
+    // k
+    public void remove(int delete_me) {
+        if (head == null) {
+            return; // List is empty
+        }
+        if (head.data == delete_me) {
+            head = head.next;
+            size--;
+            return;
+        }
+        Node temp = head;
+        while (temp.next != null && temp.next.data != delete_me) {
+            temp = temp.next;
+        }
+        if (temp.next != null) {
+            temp.next = temp.next.next;
+            size--;
+        }
+    }
+
+    public static void main(String[] args) {
+        MyList list = new MyList();
+
+        // Test methods
+        list.insert_Head(10);
+        list.insert_Head(20);
+        list.insert_back(30);
+        list.display(); // ->20->10->30
+
+        System.out.println("Front: " + list.front()); // 20
+        System.out.println("Back: " + list.get_back()); // 30
+
+        list.delete_head();
+        list.display(); // ->10->30
+
+        list.delete_back();
+        list.display(); // ->10
+
+        System.out.println("Size: " + list.size()); // 1
+        System.out.println("Search 10: " + list.search(10)); // true
+        System.out.println("Search 40: " + list.search(40)); // false
+
+        list.insert(10, 40);
+        list.display(); // ->10->40
+
+        list.remove(10);
+        list.display(); // ->40
+    }
 }
- 
-//PA3
-//f
-//public int get_back()
-{
-    //step 1: use a loop to go through the list and stop at the last node
-    // step 2: return the data value inside the node that is referred to by temp
-for(int i=0;)
-
-}
-/* 
-//g
-public void insert_back(int insert_me){
-    //step 1: create new node that contains "insert_me"
-    //step 2: use a loop to go through the list and stop at the last node
-    //assign the new node as the next node for the old last node
-
-    size --;
-}
-
-public void delete_back {
-    //step 1: use a loop to go throuh list and stop at the second to last node
-    //step 2: assign null to be the next node for the tmep
-}
-
-//i
-
-public boolean search(int target){ //linear search on LL
-    //step 1: iterate through the list, compaire the data in each node with teh target
-    //if target is found, return true if temp.data == target return true
-    //step 1.5: by the time when the loop in step one is done, if we have not returned true yet
-    //return false
-
-}
-
-//j
-
-public void insert(int after_me, int insert_me){
-
-    //step1: create new node that contains insert_me
-
-    //step2: iternate through the list, find the node that contains after_me
-
-    //step3:assign the next node of the after me node as the next node for the insert_me node
-
-    //step4:assign the insert_me node as teh next node fro the after_me node
-
-    size ++;
-}
-
-//k
-public void remove(int delete_me){
-    //step1:iternate through the list, find the node that is in front of delete_me
-    //temp.next.data
-
-    //step2:assign the next next node to be the next node of the node that is in front of delete_me
-}
-*/
